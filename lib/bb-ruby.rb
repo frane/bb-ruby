@@ -124,18 +124,6 @@ module BBRuby
       'Definition definitions',
       '[dd]my definition[/dd',
       :definition],
-    'Quote' => [
-      /\[quote(:.*)?="?(.*?)"?\](.*?)\[\/quote\1?\]/mi,
-      '<fieldset><legend>\2</legend><blockquote>\3</blockquote></fieldset>',
-      'Quote with citation',
-      "[quote=mike]Now is the time...[/quote]",
-      :quote],
-    'Quote (Sourceless)' => [
-      /\[quote(:.*)?\](.*?)\[\/quote\1?\]/mi,
-      '<fieldset><blockquote>\2</blockquote></fieldset>',
-      'Quote (sourceclass)',
-      "[quote]Now is the time...[/quote]",
-      :quote],
     'Link' => [
       /\[url=(.*?)\](.*?)\[\/url\]/mi,
       '<a href="\1">\2</a>',
@@ -244,6 +232,20 @@ module BBRuby
     #   BBRuby.to_html(text, {}, true, :disable, :image, :video, :color)
     #
     def to_html(text, tags_alternative_definition={}, escape_html=true, method=:disable, *tags)
+      if escape_html
+        text.gsub!( '&', '&amp;' )
+        text.gsub!( '<', '&lt;' )
+        text.gsub!( '>', '&gt;' )
+      end
+
+      text.gsub!(/\[quote\]/, '<fieldset><legend>Quote:</legend><blockquote>')
+      text.gsub!(/\[quote(:.*)?="?(.*?)"?\]/, '<fieldset><legend>Quote: \2</legend><blockquote>')
+      text.gsub!(/\[\/quote\]/, '</blockquote></fieldset>')
+
+      self.old_to_html(text, tags_alternative_definition, false, method, *tags)
+    end
+    
+    def old_to_html(text, tags_alternative_definition={}, escape_html=true, method=:disable, *tags)
       text = text.clone
       
       # escape "<, >, &" to remove any html
