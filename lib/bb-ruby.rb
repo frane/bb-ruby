@@ -251,7 +251,11 @@ module BBRuby
       text.gsub!( /\n/, "<br />\n" )
 
       # return markup
-      text
+      if text.respond_to?(:html_safe)
+        text.html_safe
+      else
+        text
+      end
     end
     
     # The same as BBRuby.to_html except the output is passed through simple_format first
@@ -264,7 +268,12 @@ module BBRuby
       text = process_tags(text, tags_alternative_definition, escape_html, method, *tags)
       
       # parse spacing
-      simple_format( text )
+      text = simple_format( text )
+      if text.respond_to?(:html_safe)
+        text.html_safe
+      else
+        text
+      end
     end
 
     # Returns the list of tags processed by BBRuby in a Hash object
