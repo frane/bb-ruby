@@ -75,6 +75,7 @@ class TestBBRuby < Test::Unit::TestCase
     assert_equal '<li>item1</li><li>item2</li>', '[*:asdf]item1[*:asdf]item2'.bbcode_to_html
     assert_equal '<ul><li>item1</li><li>item2</li></ul>', '[list:5d7cf5560a][*]item1[*]item2[/list:u:5d7cf5560a]'.bbcode_to_html
     assert_equal '<ul><li>item1</li><li>item2</li></ul>', '[list:5d7cf5560a][*:5d7cf5560a]item1[*:5d7cf5560a]item2[/list:u:5d7cf5560a]'.bbcode_to_html
+    assert_equal '<ul>list</ul>','[list]list[/list]'.bbcode_to_html
   end
 
   def test_list_ordered_numerically
