@@ -191,7 +191,49 @@ module BBRuby
       '<a href="mailto:\2">\2</a>',
       'Link to email address',
       '[email]wadus@wadus.com[/email]',
-      :email]
+      :email],
+      'Table' => [
+        /\[table(:.*)?\](.*?)\[\/table\1?\]/mi,
+        '<table>\2</table>',
+        'Table',
+        'A [table]...[/table]',
+        :table],
+      'Tr' => [
+        /\[tr(:.+)?\](.*?)\[\/tr\1?\]/mi,
+        '<tr>\2</tr>',
+        'Table row',
+        'A table row [tr]...[/tr]',
+        :tr],
+      'Td' => [
+        /\[td(:.+)?\](.*?)\[\/td\1?\]/mi,
+        '<td>\2</td>',
+        'Table column',
+        'A table column [td]...[/td]',
+        :td],
+      'h1' => [
+        /\[h1(:.+)?\](.*?)\[\/h1\1?\]/mi,
+        '<h1>\2</h1>',
+        'Heading 1',
+        '[h1]Some Title [/h1]',
+        :h1],
+      'h2' => [
+        /\[h2(:.+)?\](.*?)\[\/h2\1?\]/mi,
+        '<h2>\2</h2>',
+        'Heading 2',
+        '[h2]Some Title[/h2]',
+        :h2],
+      'h3' => [
+        /\[h3(:.+)?\](.*?)\[\/h3\1?\]/mi,
+        '<h3>\2</h3>',
+        'Heading 3',
+        '[h3]Some Title[/h3]',
+        :h3],
+      'h4' => [
+        /\[h4(:.+)?\](.*?)\[\/h4\1?\]/mi,
+        '<h4>\2</h4>',
+        'Heading 4',
+        '[h4]Some Title[/h4]',
+        :h4]
   }
 
   class << self

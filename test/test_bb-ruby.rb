@@ -146,6 +146,22 @@ class TestBBRuby < Test::Unit::TestCase
     assert_equal '<a href="mailto:wadus@wadus.com">wadus@wadus.com</a>', '[email]wadus@wadus.com[/email]'.bbcode_to_html
   end
 
+  def test_table
+    assert_equal '<table>foo</table>', '[table]foo[/table]'.bbcode_to_html
+    assert_equal '<tr>foo</tr>', '[tr]foo[/tr]'.bbcode_to_html
+    assert_equal '<td>foo</td>', '[td]foo[/td]'.bbcode_to_html
+    assert_equal '<table><tr><td>foo</td></tr></table>', '[table][tr][td]foo[/td][/tr][/table]'.bbcode_to_html
+    assert_equal '<table><tr><td>foo</td><td>bar</td></tr></table>', '[table][tr][td]foo[/td][td]bar[/td][/tr][/table]'.bbcode_to_html
+    assert_equal '<table><tr><td>foo 1</td><td>bar 1</td></tr><tr><td>foo 2</td><td>bar 2</td></tr></table>', '[table][tr][td]foo 1[/td][td]bar 1[/td][/tr][tr][td]foo 2[/td][td]bar 2[/td][/tr][/table]'.bbcode_to_html
+  end
+
+  def test_headings
+    assert_equal '<h1>Foo</h1>', '[h1]Foo[/h1]'.bbcode_to_html
+    assert_equal '<h2>Foo</h2>', '[h2]Foo[/h2]'.bbcode_to_html
+    assert_equal '<h3>Foo</h3>', '[h3]Foo[/h3]'.bbcode_to_html
+    assert_equal '<h4>Foo</h4>', '[h4]Foo[/h4]'.bbcode_to_html
+  end
+
   def test_auto_link
     assert_equal %Q(previous text <a href="http://www.google.com">http://www.google.com</a> post text), 'previous text http://www.google.com post text'.bbcode_to_html
     assert_equal %Q( <a href="http://google.com">http://google.com</a> is my favorite search engine), 'http://google.com is my favorite search engine'.bbcode_to_html
@@ -192,7 +208,7 @@ class TestBBRuby < Test::Unit::TestCase
   end
 
   def test_self_tag_list
-    assert_equal 30, BBRuby.tag_list.size
+    assert_equal 37, BBRuby.tag_list.size
   end
   
   def test_redefinition_of_tag_html
