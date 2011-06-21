@@ -124,18 +124,6 @@ module BBRuby
       'Definition definitions',
       '[dd]my definition[/dd',
       :definition],
-    'Quote' => [
-      /\[quote(:.*)?="?(.*?)"?\](.*?)\[\/quote\1?\]/mi,
-      '<fieldset><legend>\2</legend><blockquote>\3</blockquote></fieldset>',
-      'Quote with citation',
-      "[quote=mike]Now is the time...[/quote]",
-      :quote],
-    'Quote (Sourceless)' => [
-      /\[quote(:.*)?\](.*?)\[\/quote\1?\]/mi,
-      '<fieldset><blockquote>\2</blockquote></fieldset>',
-      'Quote (sourceclass)',
-      "[quote]Now is the time...[/quote]",
-      :quote],
     'Link' => [
       /\[url=(.*?)\](.*?)\[\/url\]/mi,
       '<a href="\1">\2</a>',
@@ -285,14 +273,18 @@ module BBRuby
     
     def process_tags(text, tags_alternative_definition={}, escape_html=true, method=:disable, *tags)
       text = text.dup
-      
+
       # escape "<, >, &" to remove any html
       if escape_html
         text.gsub!( '&', '&amp;' )
         text.gsub!( '<', '&lt;' )
         text.gsub!( '>', '&gt;' )
       end
-      
+
+      text.gsub!(/\[quote\]/, '<fieldset><blockquote>')
+      text.gsub!(/\[quote(:.*)?="?(.*?)"?\]/, '<fieldset><legend>\2</legend><blockquote>')
+      text.gsub!(/\[\/quote\]/, '</blockquote></fieldset>')
+
       tags_definition = @@tags.merge(tags_alternative_definition)
 
       # parse bbcode tags
